@@ -13,7 +13,7 @@ Jinja2
 MarkupSafe
 mongoengine==0.27.0
 PyJWT
-pymongo
+pymongo==4.6.1
 Werkzeug==2.3.7
 WTForms
 python-dotenv==1.0.0
