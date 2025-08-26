@@ -106,11 +106,11 @@
 
       <div v-else>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <div
+          <NuxtLink
             v-for="product in products"
             :key="product.id"
-            class="bg-black border border-gray-800 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform duration-300 cursor-pointer"
-            @click="viewProduct(product.id)"
+            :to="`/products/${product.id}`"
+            class="bg-black border border-gray-800 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform duration-300 cursor-pointer block"
           >
             <!-- Product Image -->
             <div class="h-64 bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
@@ -156,7 +156,7 @@
                 </button>
               </div>
             </div>
-          </div>
+          </NuxtLink>
         </div>
 
         <!-- Pagination -->

@@ -8,7 +8,10 @@ Usage:
 from __future__ import annotations
 
 import os
-from typing import Dict, List
+from typing import Dict, List, Tuple, Optional
+import sys
+import json
+import re
 
 from mongoengine import connect, DoesNotExist
 
@@ -200,7 +203,173 @@ def run_seed() -> None:
     )
 
 
+def _parse_objects_from_section(lines: List[str]) -> List[str]:
+    """Collect JSON-like object chunks by brace depth from a section of lines."""
+    objects: List[str] = []
+    buf: List[str] = []
+    depth = 0
+    for raw in lines:
+        line = raw.rstrip()
+        # skip empty separators
+        if not line and depth == 0:
+            continue
+        # accumulate and track depth
+        buf.append(line)
+        depth += line.count("{") - line.count("}")
+        if depth == 0 and buf:
+            chunk = "\n".join(buf)
+            # strip trailing commas/semicolons between objects
+            chunk = chunk.strip()
+            if chunk.endswith(",") or chunk.endswith(";"):
+                chunk = chunk[:-1]
+            objects.append(chunk)
+            buf = []
+    return objects
+
+
+def _normalize_extended_json(chunk: str) -> str:
+    """Transform Mongo Extended JSON snippets like {"$oid": "..."} and {"$date": "..."} into plain strings.
+
+    Use callable replacement to avoid backreference escaping issues.
+    """
+    def replace_oid(m: re.Match) -> str:
+        return '"' + m.group(1) + '"'
+
+    def replace_date(m: re.Match) -> str:
+        return '"' + m.group(1) + '"'
+
+    # Replace { "$oid": "..." } with "..."
+    chunk = re.sub(r"\{\s*\"\$oid\"\s*:\s*\"([^\"]+)\"\s*\}", replace_oid, chunk)
+    # Replace { "$date": "..." } with "..."
+    chunk = re.sub(r"\{\s*\"\$date\"\s*:\s*\"([^\"]+)\"\s*\}", replace_date, chunk)
+    return chunk
+
+
+def _load_from_data_txt(path: str) -> Tuple[List[Dict], List[Dict]]:
+    """Parse root data.txt into (products, categories) lists of dicts.
+
+    The file uses two sections labeled 'Product :' and 'Categories :', followed by
+    multiple object literals separated by commas/semicolons.
+    """
+    with open(path, "r", encoding="utf-8") as f:
+        all_lines = f.read().splitlines()
+
+    # Find section indices
+    prod_start = None
+    cat_start = None
+    for idx, line in enumerate(all_lines):
+        if prod_start is None and line.strip().startswith("Product :"):
+            prod_start = idx + 1
+            continue
+        if line.strip().startswith("Categories :"):
+            cat_start = idx + 1
+            break
+
+    if prod_start is None or cat_start is None:
+        raise RuntimeError("data.txt missing required sections 'Product :' and 'Categories :'")
+
+    product_lines = all_lines[prod_start:cat_start - 1]
+    category_lines = all_lines[cat_start:]
+
+    product_chunks = _parse_objects_from_section(product_lines)
+    category_chunks = _parse_objects_from_section(category_lines)
+
+    def to_dict_list(chunks: List[str]) -> List[Dict]:
+        results: List[Dict] = []
+        for ch in chunks:
+            norm = _normalize_extended_json(ch)
+            try:
+                data = json.loads(norm)
+                results.append(data)
+            except json.JSONDecodeError as e:
+                # Provide context to help debugging malformed blocks
+                raise RuntimeError(f"Failed to parse block as JSON: {e}\nBlock:\n{norm}") from e
+        return results
+
+    products_raw = to_dict_list(product_chunks)
+    categories_raw = to_dict_list(category_chunks)
+
+    return products_raw, categories_raw
+
+
+def run_seed_from_file(path: str) -> None:
+    ensure_connection()
+
+    products_raw, categories_raw = _load_from_data_txt(path)
+
+    # Upsert categories first and build mapping from original _id to saved Category
+    original_id_to_category: Dict[str, Category] = {}
+
+    for c in categories_raw:
+        original_id: Optional[str] = None
+        if isinstance(c.get("_id"), dict):
+            # Already normalized by _normalize_extended_json, so should be string
+            pass
+        # normalize fields allowed by model
+        original_id = str(c.get("_id")) if c.get("_id") is not None else None
+        # Prepare payload
+        c_payload: Dict = {
+            "name": c.get("name"),
+            "description": c.get("description"),
+            "image_url": c.get("image_url"),
+            "slug": c.get("slug"),
+            "is_active": bool(c.get("is_active", True)),
+        }
+        saved = upsert_category(c_payload)
+        if original_id:
+            original_id_to_category[original_id] = saved
+
+    # Upsert products, resolving category by original id reference
+    for p in products_raw:
+        # Resolve category
+        category_ref = p.get("category")
+        resolved_category = None
+        if isinstance(category_ref, dict):
+            # after normalization it should be a string, but handle both
+            category_original_id = category_ref.get("$oid")
+            if category_original_id:
+                resolved_category = original_id_to_category.get(category_original_id)
+        elif isinstance(category_ref, str):
+            resolved_category = original_id_to_category.get(category_ref)
+
+        if resolved_category is None:
+            # Skip products with unknown category mapping
+            continue
+
+        p_payload: Dict = {
+            "name": p.get("name"),
+            "description": p.get("description"),
+            "price": float(p.get("price", 0.0)),
+            "original_price": float(p.get("original_price", 0.0)) if p.get("original_price") is not None else None,
+            "category": resolved_category,
+            "images": list(p.get("images") or []),
+            "stock_quantity": int(p.get("stock_quantity", 0)),
+            "sku": p.get("sku"),
+            "brand": p.get("brand"),
+            "tags": list(p.get("tags") or []),
+            "is_featured": bool(p.get("is_featured", False)),
+            "is_active": bool(p.get("is_active", True)),
+            "rating": float(p.get("rating", 0.0)),
+            "review_count": int(p.get("review_count", 0)),
+        }
+        upsert_product(p_payload)
+
+    print(
+        {
+            "categories": Category.objects.count(),
+            "products": Product.objects.count(),
+            "from_file": True,
+        }
+    )
+
+
 if __name__ == "__main__":
-    run_seed()
+    # Usage:
+    #   python seed_data.py                -> seed with built-in data
+    #   python seed_data.py --file ../data.txt  -> import from external data file
+    if len(sys.argv) >= 3 and sys.argv[1] == "--file":
+        run_seed_from_file(sys.argv[2])
+    else:
+        run_seed()
 
 
