@@ -245,6 +245,58 @@ def get_featured_products():
             'error': 'เกิดข้อผิดพลาดในการดึงข้อมูลสินค้าแนะนำ'
         }), 500
 
+@products.route('/products/<product_id>/related', methods=['GET'])
+def get_related_products(product_id):
+    """ดึงข้อมูลสินค้าที่เกี่ยวข้อง"""
+    try:
+        # ดึงข้อมูลสินค้าเป้าหมายก่อน
+        target_product = Product.objects(id=product_id, is_active=True).first()
+        
+        if not target_product:
+            return jsonify({
+                'success': False,
+                'error': 'ไม่พบสินค้านี้'
+            }), 404
+        
+        # ดึงสินค้าที่เกี่ยวข้องจากหมวดหมู่เดียวกัน (ยกเว้นสินค้าเป้าหมาย)
+        related_products = Product.objects(
+            category=target_product.category,
+            is_active=True,
+            id__ne=product_id
+        ).limit(4)
+        
+        products_data = []
+        for product in related_products:
+            category = product.category
+            products_data.append({
+                'id': str(product.id),
+                'name': product.name,
+                'description': product.description,
+                'price': product.price,
+                'original_price': product.original_price,
+                'images': product.images,
+                'stock_quantity': product.stock_quantity,
+                'brand': product.brand,
+                'rating': product.rating,
+                'review_count': product.review_count,
+                'category': {
+                    'id': str(category.id),
+                    'name': category.name,
+                    'slug': category.slug
+                } if category else None
+            })
+        
+        return jsonify({
+            'success': True,
+            'products': products_data
+        }), 200
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': 'เกิดข้อผิดพลาดในการดึงข้อมูลสินค้าที่เกี่ยวข้อง'
+        }), 500
+
 
 @products.route('/cart', methods=['GET'])
 @jwt_required()
