@@ -20,6 +20,36 @@
       <!-- Register Form -->
       <form class="mt-8 space-y-6" @submit.prevent="handleRegister">
         <div class="space-y-4">
+          <!-- First Name Field -->
+          <div>
+            <label for="first_name" class="block text-sm font-medium text-white">
+              ชื่อ
+            </label>
+            <input
+              id="first_name"
+              v-model="form.first_name"
+              name="first_name"
+              type="text"
+              class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+              placeholder="กรอกชื่อ"
+            />
+          </div>
+
+          <!-- Last Name Field -->
+          <div>
+            <label for="last_name" class="block text-sm font-medium text-white">
+              นามสกุล
+            </label>
+            <input
+              id="last_name"
+              v-model="form.last_name"
+              name="last_name"
+              type="text"
+              class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+              placeholder="กรอกนามสกุล"
+            />
+          </div>
+
           <!-- Username Field -->
           <div>
             <label for="username" class="block text-sm font-medium text-white">
@@ -115,6 +145,8 @@ definePageMeta({
 })
 
 const form = ref({
+  first_name: '',
+  last_name: '',
   username: '',
   password: '',
   confirmPassword: ''
@@ -173,6 +205,8 @@ const handleRegister = async () => {
     const response = await apiCall('/api/register', {
       method: 'POST',
       body: {
+        first_name: form.value.first_name,
+        last_name: form.value.last_name,
         username: form.value.username,
         password: form.value.password
       }
@@ -182,6 +216,8 @@ const handleRegister = async () => {
     
     // รีเซ็ตฟอร์ม
     form.value = {
+      first_name: '',
+      last_name: '',
       username: '',
       password: '',
       confirmPassword: ''

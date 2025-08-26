@@ -11,7 +11,8 @@
 
 <script setup>
 definePageMeta({
-  layout: 'default'
+  layout: 'default',
+  ssr: false
 })
 
 // Check if user has visited before and redirect accordingly

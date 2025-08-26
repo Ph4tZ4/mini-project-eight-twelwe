@@ -10,12 +10,19 @@ from routes.contact import contact
 from routes.categories import categories
 from routes.home import home
 from routes.about import about
+from routes.cart import cart
+from routes.orders import orders
+from routes.shipping import shipping
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 # CORS Configuration
-CORS(app, origins=app.config['CORS_ORIGINS'], supports_credentials=True)
+CORS(app, 
+     origins=app.config['CORS_ORIGINS'], 
+     supports_credentials=True,
+     allow_headers=['Content-Type', 'Authorization'],
+     methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
 
 # JWT Configuration
 jwt = JWTManager(app)
@@ -34,6 +41,9 @@ app.register_blueprint(contact, url_prefix="/api")
 app.register_blueprint(categories, url_prefix="/api")
 app.register_blueprint(home, url_prefix="/api")
 app.register_blueprint(about, url_prefix="/api")
+app.register_blueprint(cart, url_prefix="/api")
+app.register_blueprint(orders, url_prefix="/api")
+app.register_blueprint(shipping, url_prefix="/api")
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5050)

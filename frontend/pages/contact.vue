@@ -17,6 +17,24 @@
           </nav>
           
           <div class="flex items-center space-x-4">
+            <!-- Cart Icon -->
+            <NuxtLink
+              to="/cart"
+              class="relative text-gray-300 hover:text-white transition-colors p-2"
+              title="ตะกร้าสินค้า"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0H17"></path>
+              </svg>
+              <!-- Cart Count Badge -->
+              <span 
+                v-if="cartCount > 0" 
+                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+              >
+                {{ cartCount > 99 ? '99+' : cartCount }}
+              </span>
+            </NuxtLink>
+            
             <!-- Show ProfileDropdown if logged in, otherwise show Login/Register buttons -->
             <ProfileDropdown v-if="isLoggedIn" :user="currentUser" @logout="handleLogout" />
             <template v-else>
@@ -274,6 +292,7 @@ definePageMeta({
 import ProfileDropdown from '~/components/ProfileDropdown.vue'
 
 const { apiCall } = useApi()
+const { cartCount, getCartCount } = useCart()
 
 // Form data
 const form = ref({
@@ -378,6 +397,7 @@ const submitContact = async () => {
 // Lifecycle
 onMounted(() => {
   checkAuthStatus() // Check authentication status on mount
+  getCartCount() // Get cart count on mount
 })
 </script>
 

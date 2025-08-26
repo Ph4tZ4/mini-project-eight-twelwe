@@ -34,6 +34,8 @@ def generate_profile_picture_url(username):
 
 class User(Document):
     username = StringField(required=True, unique=True, max_length=50)
+    first_name = StringField(max_length=50, default='')
+    last_name = StringField(max_length=50, default='')
     password = StringField(required=True, min_length=6)
     profile_picture = StringField(max_length=1000, default=None)
     created_at = DateTimeField(default=datetime.utcnow)
@@ -127,4 +129,129 @@ class Contact(Document):
     meta = {
         'collection': 'contacts',
         'indexes': ['email', 'is_read', 'created_at']
+    }
+
+class OrderItem(EmbeddedDocument):
+    product = ReferenceField(Product, required=True)
+    quantity = IntField(required=True, min_value=1)
+    price_at_order = FloatField(required=True, min_value=0)
+    total_price = FloatField(required=True, min_value=0)
+
+class ShippingAddress(EmbeddedDocument):
+    full_name = StringField(required=True, max_length=100)
+    phone = StringField(required=True, max_length=20)
+    address_line_1 = StringField(required=True, max_length=200)
+    address_line_2 = StringField(max_length=200)
+    city = StringField(required=True, max_length=100)
+    province = StringField(required=True, max_length=100)
+    postal_code = StringField(required=True, max_length=10)
+    country = StringField(required=True, max_length=100, default='Thailand')
+
+class Payment(Document):
+    payment_method = StringField(required=True, choices=['credit_card', 'bank_transfer', 'cash_on_delivery'], default='cash_on_delivery')
+    payment_status = StringField(required=True, choices=['pending', 'paid', 'failed', 'refunded'], default='pending')
+    amount = FloatField(required=True, min_value=0)
+    transaction_id = StringField(max_length=100)
+    payment_date = DateTimeField()
+    created_at = DateTimeField(default=datetime.utcnow)
+    updated_at = DateTimeField(default=datetime.utcnow)
+    
+    meta = {
+        'collection': 'payments',
+        'indexes': ['payment_status', 'created_at']
+    }
+
+class Order(Document):
+    order_number = StringField(required=True, unique=True, max_length=20)
+    user = ReferenceField(User, required=True)
+    items = ListField(EmbeddedDocumentField(OrderItem), required=True)
+    shipping_address = EmbeddedDocumentField(ShippingAddress, required=True)
+    payment = ReferenceField(Payment, required=True)
+    
+    # Order status
+    order_status = StringField(
+        required=True, 
+        choices=['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'], 
+        default='pending'
+    )
+    
+    # Pricing
+    subtotal = FloatField(required=True, min_value=0)
+    shipping_fee = FloatField(required=True, min_value=0, default=0)
+    tax = FloatField(required=True, min_value=0, default=0)
+    total_amount = FloatField(required=True, min_value=0)
+    
+    # Timestamps
+    created_at = DateTimeField(default=datetime.utcnow)
+    updated_at = DateTimeField(default=datetime.utcnow)
+    confirmed_at = DateTimeField()
+    shipped_at = DateTimeField()
+    delivered_at = DateTimeField()
+    
+    # Notes
+    notes = StringField(max_length=500)
+    
+    meta = {
+        'collection': 'orders',
+        'indexes': ['order_number', 'user', 'order_status', 'created_at']
+    }
+    
+    def save(self, *args, **kwargs):
+        # Generate order number if not exists
+        if not self.order_number:
+            import random
+            import string
+            timestamp = datetime.utcnow().strftime('%y%m%d')
+            random_part = ''.join(random.choices(string.digits, k=4))
+            self.order_number = f'ORD{timestamp}{random_part}'
+        
+        # Update timestamps
+        self.updated_at = datetime.utcnow()
+        super().save(*args, **kwargs)
+
+class ShippingTracking(Document):
+    order = ReferenceField(Order, required=True, unique=True)
+    tracking_number = StringField(required=True, unique=True, max_length=50)
+    carrier = StringField(required=True, max_length=100, default='ShopHub Express')
+    current_status = StringField(
+        required=True,
+        choices=['order_placed', 'preparing', 'picked_up', 'in_transit', 'out_for_delivery', 'delivered'],
+        default='order_placed'
+    )
+    estimated_delivery = DateTimeField()
+    actual_delivery = DateTimeField()
+    created_at = DateTimeField(default=datetime.utcnow)
+    updated_at = DateTimeField(default=datetime.utcnow)
+    
+    meta = {
+        'collection': 'shipping_tracking',
+        'indexes': ['tracking_number', 'order', 'current_status']
+    }
+    
+    def save(self, *args, **kwargs):
+        # Generate tracking number if not exists
+        if not self.tracking_number:
+            import random
+            import string
+            random_part = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+            self.tracking_number = f'TH{random_part}'
+        
+        self.updated_at = datetime.utcnow()
+        super().save(*args, **kwargs)
+
+class ShippingStatus(EmbeddedDocument):
+    status = StringField(required=True)
+    description = StringField(required=True)
+    location = StringField(max_length=200)
+    timestamp = DateTimeField(required=True, default=datetime.utcnow)
+
+class ShippingHistory(Document):
+    tracking = ReferenceField(ShippingTracking, required=True)
+    status_history = ListField(EmbeddedDocumentField(ShippingStatus), default=list)
+    created_at = DateTimeField(default=datetime.utcnow)
+    updated_at = DateTimeField(default=datetime.utcnow)
+    
+    meta = {
+        'collection': 'shipping_history',
+        'indexes': ['tracking']
     }

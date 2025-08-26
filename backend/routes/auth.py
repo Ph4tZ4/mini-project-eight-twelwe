@@ -30,6 +30,8 @@ def register():
         
         username = data['username'].strip()
         password = data['password']
+        first_name = data.get('first_name', '').strip()
+        last_name = data.get('last_name', '').strip()
         
         # ตรวจสอบความยาว username
         if len(username) < 3:
@@ -48,6 +50,8 @@ def register():
         hashed_password = generate_password_hash(password)
         user = User(
             username=username,
+            first_name=first_name,
+            last_name=last_name,
             password=hashed_password
         )
         user.save()
@@ -96,6 +100,8 @@ def login():
             "user": {
                 "id": str(user.id),
                 "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
                 "profile_picture": user.profile_picture
             }
         }), 200
@@ -117,6 +123,8 @@ def get_profile():
             "user": {
                 "id": str(user.id),
                 "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
                 "profile_picture": user.profile_picture,
                 "created_at": user.created_at.isoformat() if user.created_at else None
             }
@@ -138,7 +146,7 @@ def update_profile():
         data = request.get_json()
         
         # ตรวจสอบว่ามีข้อมูลที่ต้องการอัปเดตหรือไม่
-        if not data or (not data.get('username') and not data.get('password')):
+        if not data or (not data.get('username') and not data.get('password') and not data.get('first_name') and not data.get('last_name')):
             return jsonify({"error": "กรุณาระบุข้อมูลที่ต้องการอัปเดต"}), 400
         
         # อัปเดต username
@@ -155,6 +163,14 @@ def update_profile():
                 return jsonify({"error": "ชื่อผู้ใช้นี้มีอยู่ในระบบแล้ว"}), 400
             
             user.username = new_username
+        
+        # อัปเดต first_name
+        if data.get('first_name') is not None:
+            user.first_name = data['first_name'].strip()
+        
+        # อัปเดต last_name
+        if data.get('last_name') is not None:
+            user.last_name = data['last_name'].strip()
         
         # อัปเดตรหัสผ่าน
         if data.get('password'):

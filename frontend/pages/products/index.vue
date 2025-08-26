@@ -17,6 +17,24 @@
           </nav>
           
           <div class="flex items-center space-x-4">
+            <!-- Cart Icon -->
+            <NuxtLink
+              to="/cart"
+              class="relative text-gray-300 hover:text-white transition-colors p-2"
+              title="ตะกร้าสินค้า"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0H17"></path>
+              </svg>
+              <!-- Cart Count Badge -->
+              <span 
+                v-if="cartCount > 0" 
+                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+              >
+                {{ cartCount > 99 ? '99+' : cartCount }}
+              </span>
+            </NuxtLink>
+            
             <!-- Show ProfileDropdown if logged in, otherwise show Login/Register buttons -->
             <ProfileDropdown v-if="isLoggedIn" :user="currentUser" @logout="handleLogout" />
             <template v-else>
@@ -137,22 +155,26 @@
               </div>
               
               <!-- Rating -->
-              <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                  <div class="flex text-yellow-400">
-                    <svg v-for="i in 5" :key="i" class="w-4 h-4" :class="i <= product.rating ? 'text-yellow-400' : 'text-gray-600'" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  </div>
-                  <span class="text-gray-400 text-sm ml-2">({{ product.review_count }})</span>
+              <div class="flex items-center mb-4">
+                <div class="flex text-yellow-400">
+                  <svg v-for="i in 5" :key="i" class="w-4 h-4" :class="i <= product.rating ? 'text-yellow-400' : 'text-gray-600'" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
                 </div>
-                
+                <span class="text-gray-400 text-sm ml-2">({{ product.review_count }})</span>
+              </div>
+              
+              <!-- View Details Button -->
+              <div class="flex justify-center">
                 <button 
-                  class="bg-white text-black px-4 py-2 rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  :disabled="product.stock_quantity === 0"
-                  @click.stop="addToCart(product)"
+                  class="bg-white text-black px-6 py-2 rounded-md hover:bg-gray-200 transition-colors flex items-center gap-2 w-full justify-center"
+                  @click.stop="viewProduct(product.id)"
                 >
-                  {{ product.stock_quantity > 0 ? 'เพิ่มลงตะกร้า' : 'หมดสินค้า' }}
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>
+                  ดูรายละเอียด
                 </button>
               </div>
             </div>
@@ -200,7 +222,7 @@ definePageMeta({
 import ProfileDropdown from '~/components/ProfileDropdown.vue'
 
 const { apiCall } = useApi()
-const { addItem, fetchCart } = useCart()
+const { cartCount, getCartCount } = useCart()
 
 // Reactive data
 const products = ref([])
@@ -322,15 +344,6 @@ const viewProduct = (productId) => {
   navigateTo(`/products/${productId}`)
 }
 
-const addToCart = async (product) => {
-  try {
-    await addItem(product.id, 1)
-    await fetchCart()
-  } catch (e) {
-    console.error(e)
-  }
-}
-
 const formatPrice = (price) => {
   return price.toLocaleString('th-TH')
 }
@@ -339,6 +352,7 @@ const formatPrice = (price) => {
 onMounted(async () => {
   await Promise.all([fetchProducts(), fetchCategories()])
   checkAuthStatus() // Check authentication status on mount
+  getCartCount() // Get cart count on mount
 })
 </script>
 
