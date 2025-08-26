@@ -1,0 +1,259 @@
+Product :
+{
+  "_id": {
+    "$oid": "68ada0c322a082d222533d14"
+  },
+  "name": "หูฟังไร้สาย Pro X",
+  "description": "ระบบตัดเสียงรบกวน อึดนาน 30 ชั่วโมง",
+  "price": 3990,
+  "original_price": 4590,
+  "category": {
+    "$oid": "68ada0c322a082d222533d10"
+  },
+  "images": [
+    "https://picsum.photos/seed/headphones/1200/800"
+  ],
+  "stock_quantity": 120,
+  "sku": "ELEC-HP-PROX",
+  "brand": "SoundMax",
+  "tags": [
+    "wireless",
+    "noise-cancelling"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.6,
+  "review_count": 842,
+  "created_at": {
+    "$date": "2025-08-26T11:55:47.272Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-26T11:55:47.272Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ada0c322a082d222533d15"
+  },
+  "name": "สมาร์ทวอทช์ Fit 2",
+  "description": "กันน้ำ วัดชีพจร ติดตามการนอน",
+  "price": 2790,
+  "original_price": 3290,
+  "category": {
+    "$oid": "68ada0c322a082d222533d10"
+  },
+  "images": [
+    "https://picsum.photos/seed/watch/1200/800"
+  ],
+  "stock_quantity": 85,
+  "sku": "ELEC-WATCH-FIT2",
+  "brand": "Fitio",
+  "tags": [
+    "smartwatch",
+    "fitness"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.4,
+  "review_count": 523,
+  "created_at": {
+    "$date": "2025-08-26T11:55:47.273Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-26T11:55:47.273Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ada0c322a082d222533d16"
+  },
+  "name": "เสื้อยืด Cotton Premium",
+  "description": "ผ้านุ่ม ระบายอากาศดี ใส่สบาย",
+  "price": 290,
+  "original_price": 350,
+  "category": {
+    "$oid": "68ada0c322a082d222533d11"
+  },
+  "images": [
+    "https://picsum.photos/seed/tshirt/1200/800"
+  ],
+  "stock_quantity": 300,
+  "sku": "FASH-TSHIRT-CTNPREM",
+  "brand": "Wearly",
+  "tags": [
+    "tshirt",
+    "cotton"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.2,
+  "review_count": 211,
+  "created_at": {
+    "$date": "2025-08-26T11:55:47.275Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-26T11:55:47.275Z"
+  }
+};
+{
+  "_id": {
+    "$oid": "68ada0c322a082d222533d17"
+  },
+  "name": "หมอนหนุน Memory Foam",
+  "description": "รองรับสรีระ ลดปวดคอ หลับสบาย",
+  "price": 690,
+  "original_price": 890,
+  "category": {
+    "$oid": "68ada0c322a082d222533d12"
+  },
+  "images": [
+    "https://picsum.photos/seed/pillow/1200/800"
+  ],
+  "stock_quantity": 160,
+  "sku": "HOME-PILLOW-MEMFOAM",
+  "brand": "Sleeplux",
+  "tags": [
+    "pillow",
+    "sleep"
+  ],
+  "is_featured": false,
+  "is_active": true,
+  "rating": 4.5,
+  "review_count": 129,
+  "created_at": {
+    "$date": "2025-08-26T11:55:47.276Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-26T11:55:47.276Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ada0c322a082d222533d18"
+  },
+  "name": "ดัมเบลปรับน้ำหนัก 20kg",
+  "description": "ปรับได้ทีละ 2.5kg ประหยัดพื้นที่",
+  "price": 3590,
+  "original_price": 4290,
+  "category": {
+    "$oid": "68ada0c322a082d222533d13"
+  },
+  "images": [
+    "https://picsum.photos/seed/dumbbell/1200/800"
+  ],
+  "stock_quantity": 40,
+  "sku": "SPORT-DUMB-20KG",
+  "brand": "StrongPro",
+  "tags": [
+    "gym",
+    "homeworkout"
+  ],
+  "is_featured": true,
+  "is_active": true,
+  "rating": 4.7,
+  "review_count": 301,
+  "created_at": {
+    "$date": "2025-08-26T11:55:47.277Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-26T11:55:47.277Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ada0c322a082d222533d19"
+  },
+  "name": "รองเท้าวิ่ง AirFlow",
+  "description": "ระบายอากาศดี น้ำหนักเบา ซัพพอร์ตข้อเท้า",
+  "price": 1990,
+  "original_price": 2490,
+  "category": {
+    "$oid": "68ada0c322a082d222533d13"
+  },
+  "images": [
+    "https://picsum.photos/seed/runningshoes/1200/800"
+  ],
+  "stock_quantity": 95,
+  "sku": "SPORT-SHOE-AIRFLOW",
+  "brand": "FleetRun",
+  "tags": [
+    "running",
+    "shoes"
+  ],
+  "is_featured": false,
+  "is_active": true,
+  "rating": 4.3,
+  "review_count": 188,
+  "created_at": {
+    "$date": "2025-08-26T11:55:47.278Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-26T11:55:47.278Z"
+  }
+}
+
+Categories :
+{
+  "_id": {
+    "$oid": "68ada0c322a082d222533d10"
+  },
+  "name": "อิเล็กทรอนิกส์",
+  "description": "แกดเจ็ตและอุปกรณ์อิเล็กทรอนิกส์ยอดนิยม",
+  "image_url": "https://picsum.photos/seed/electronics/800/600",
+  "slug": "electronics",
+  "is_active": true,
+  "created_at": {
+    "$date": "2025-08-26T11:55:47.182Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-26T11:55:47.182Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ada0c322a082d222533d11"
+  },
+  "name": "แฟชั่น",
+  "description": "เสื้อผ้าและเครื่องแต่งกายสไตล์โมเดิร์น",
+  "image_url": "https://picsum.photos/seed/fashion/800/600",
+  "slug": "fashion",
+  "is_active": true,
+  "created_at": {
+    "$date": "2025-08-26T11:55:47.183Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-26T11:55:47.183Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ada0c322a082d222533d12"
+  },
+  "name": "บ้านและไลฟ์สไตล์",
+  "description": "ของใช้ภายในบ้านและของตกแต่ง",
+  "image_url": "https://picsum.photos/seed/home/800/600",
+  "slug": "home-lifestyle",
+  "is_active": true,
+  "created_at": {
+    "$date": "2025-08-26T11:55:47.184Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-26T11:55:47.184Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68ada0c322a082d222533d13"
+  },
+  "name": "กีฬาและสุขภาพ",
+  "description": "อุปกรณ์กีฬาและของเพื่อสุขภาพ",
+  "image_url": "https://picsum.photos/seed/sports/800/600",
+  "slug": "sports-health",
+  "is_active": true,
+  "created_at": {
+    "$date": "2025-08-26T11:55:47.185Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-26T11:55:47.185Z"
+  }
+}
