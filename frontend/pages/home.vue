@@ -149,9 +149,7 @@
               <p class="text-gray-400 text-sm mb-4">{{ product.description || 'สินค้าคุณภาพสูง' }}</p>
               <div class="flex justify-between items-center">
                 <span class="text-2xl font-bold text-white">฿{{ product.price?.toLocaleString() || '0' }}</span>
-                <button class="bg-white text-black px-4 py-2 rounded-md hover:bg-gray-200 transition-colors">
-                  เพิ่มลงตะกร้า
-                </button>
+                <button @click="addToCart(product)" class="bg-white text-black px-4 py-2 rounded-md hover:bg-gray-200 transition-colors">เพิ่มลงตะกร้า</button>
               </div>
             </div>
           </div>
@@ -280,6 +278,7 @@ const loading = ref(true)
 const error = ref('')
 
 const { apiCall } = useApi()
+const { addItem, fetchCart } = useCart()
 
 // Check authentication status
 const checkAuthStatus = () => {
@@ -347,6 +346,15 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('storage', checkAuthStatus)
 })
+
+const addToCart = async (product) => {
+  try {
+    await addItem(product.id, 1)
+    await fetchCart()
+  } catch (e) {
+    console.error(e)
+  }
+}
 </script>
 
 <style scoped>

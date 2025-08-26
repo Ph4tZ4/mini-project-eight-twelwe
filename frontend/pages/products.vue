@@ -200,6 +200,7 @@ definePageMeta({
 import ProfileDropdown from '~/components/ProfileDropdown.vue'
 
 const { apiCall } = useApi()
+const { addItem, fetchCart } = useCart()
 
 // Reactive data
 const products = ref([])
@@ -321,9 +322,13 @@ const viewProduct = (productId) => {
   navigateTo(`/products/${productId}`)
 }
 
-const addToCart = (product) => {
-  // TODO: Implement add to cart functionality
-  alert(`เพิ่ม ${product.name} ลงตะกร้าแล้ว`)
+const addToCart = async (product) => {
+  try {
+    await addItem(product.id, 1)
+    await fetchCart()
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 const formatPrice = (price) => {

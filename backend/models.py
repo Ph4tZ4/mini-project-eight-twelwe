@@ -1,5 +1,5 @@
 # models.py
-from mongoengine import Document, StringField, DateTimeField, IntField, FloatField, ReferenceField, ListField, BooleanField
+from mongoengine import Document, EmbeddedDocument, StringField, DateTimeField, IntField, FloatField, ReferenceField, ListField, BooleanField, EmbeddedDocumentField
 from datetime import datetime
 import re
 import base64
@@ -85,6 +85,35 @@ class Product(Document):
         'collection': 'products',
         'indexes': ['name', 'sku', 'category', 'is_featured', 'is_active']
     }
+
+class CartItem(EmbeddedDocument):
+    product = ReferenceField(Product, required=True)
+    quantity = IntField(required=True, min_value=1, default=1)
+    price_at_add = FloatField(required=True, min_value=0)
+    added_at = DateTimeField(default=datetime.utcnow)
+
+class Cart(Document):
+    user = ReferenceField(User, required=True, unique=True)
+    items = ListField(EmbeddedDocumentField(CartItem), default=list)
+    updated_at = DateTimeField(default=datetime.utcnow)
+    created_at = DateTimeField(default=datetime.utcnow)
+
+    meta = {
+        'collection': 'carts',
+        'indexes': ['user']
+    }
+
+    def calculate_totals(self):
+        subtotal = 0.0
+        total_quantity = 0
+        for item in self.items:
+            if item and item.product and item.quantity:
+                subtotal += (item.price_at_add or 0) * item.quantity
+                total_quantity += item.quantity
+        return {
+            'subtotal': round(subtotal, 2),
+            'total_quantity': total_quantity
+        }
 
 class Contact(Document):
     name = StringField(required=True, max_length=100)
