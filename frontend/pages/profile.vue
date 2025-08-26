@@ -5,12 +5,20 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center py-6">
           <h1 class="text-3xl font-bold text-white">โปรไฟล์ผู้ใช้</h1>
-          <button
-            @click="goBack"
-            class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition-colors duration-200"
-          >
-            กลับ
-          </button>
+          <div class="flex items-center space-x-3">
+            <button
+              @click="editProfile"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors duration-200"
+            >
+              แก้ไขโปรไฟล์
+            </button>
+            <button
+              @click="goBack"
+              class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition-colors duration-200"
+            >
+              กลับ
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -368,6 +376,10 @@ const changePassword = async () => {
 // Navigation
 const goBack = () => {
   navigateTo('/home')
+}
+
+const editProfile = () => {
+  navigateTo('/edit-profile')
 }
 
 // Utility function to format date

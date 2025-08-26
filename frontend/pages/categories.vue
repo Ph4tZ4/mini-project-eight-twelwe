@@ -60,7 +60,7 @@
         <div
           v-for="category in categories"
           :key="category.id"
-          class="bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform duration-300 cursor-pointer border border-gray-700 hover:border-white"
+          class="bg-black border border-gray-800 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform duration-300 cursor-pointer hover:border-white"
           @click="viewCategory(category.slug)"
         >
           <!-- Category Image -->
@@ -101,7 +101,7 @@
         
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div v-for="category in categories.slice(0, 4)" :key="category.id" 
-               class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-8 hover:transform hover:scale-105 transition-transform duration-300 cursor-pointer"
+               class="bg-black border border-gray-800 rounded-lg p-8 hover:transform hover:scale-105 transition-transform duration-300 cursor-pointer"
                @click="viewCategory(category.slug)">
             <div class="flex items-center mb-6">
               <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mr-6">
@@ -124,7 +124,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-gray-800 mt-20">
+    <footer class="bg-black border-t border-gray-800 mt-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="text-center">
           <p class="text-gray-400">&copy; 2024 ShopHub. สงวนลิขสิทธิ์ทั้งหมด.</p>

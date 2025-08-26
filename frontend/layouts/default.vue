@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col min-h-screen">
+  <div class="flex flex-col min-h-screen bg-black text-white">
     <Navbar />
     <main class="flex-1">
       <slot />
     </main>
     <Footer />
   </div>
-</template>
+  </template>
 
 <script setup>
 import Navbar from '~/components/Header.vue'

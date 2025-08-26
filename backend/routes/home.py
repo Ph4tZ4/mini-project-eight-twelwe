@@ -71,10 +71,15 @@ def get_home_data():
         }), 200
         
     except Exception as e:
+        # Graceful fallback to keep frontend working even if DB is unavailable
+        # You may want to log the exception `e` here for debugging
         return jsonify({
-            'success': False,
-            'error': 'เกิดข้อผิดพลาดในการดึงข้อมูลหน้าแรก'
-        }), 500
+            'success': True,
+            'featured_products': [],
+            'main_categories': [],
+            'latest_products': [],
+            'warning': 'เกิดข้อผิดพลาดในการดึงข้อมูลหน้าแรก'
+        }), 200
 
 @home.route('/home/stats', methods=['GET'])
 def get_home_stats():

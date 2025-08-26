@@ -99,7 +99,7 @@ const closeDropdown = () => {
 
 const editProfile = () => {
   closeDropdown()
-  navigateTo('/profile')
+  navigateTo('/edit-profile')
 }
 
 const logout = async () => {

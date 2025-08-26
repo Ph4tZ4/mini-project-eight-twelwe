@@ -43,7 +43,7 @@
     <!-- Main Content -->
     <main>
       <!-- Hero Section -->
-      <section class="bg-gradient-to-br from-gray-900 to-black py-20">
+      <section class="bg-black py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <!-- Loading state -->
           <div v-if="loading" class="py-8">
@@ -72,7 +72,7 @@
       </section>
 
       <!-- Company Story -->
-      <section class="py-20 bg-gray-900">
+      <section class="py-20 bg-black">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -87,7 +87,7 @@
                 เราเชื่อว่าการให้บริการที่ดีที่สุดคือการเข้าใจความต้องการของลูกค้า และมุ่งมั่นที่จะ พัฒนาปรับปรุงบริการให้ดีขึ้นอย่างต่อเนื่อง
               </p>
             </div>
-            <div class="bg-gradient-to-br from-blue-900 to-purple-900 rounded-lg p-8">
+            <div class="bg-black border border-gray-800 rounded-lg p-8">
               <div class="text-center">
                 <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
                   <svg class="w-12 h-12 text-blue-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,7 +114,7 @@
           
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Mission -->
-            <div class="bg-gray-900 p-8 rounded-lg text-center">
+            <div class="bg-black border border-gray-800 p-8 rounded-lg text-center">
               <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg class="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -128,7 +128,7 @@
             </div>
             
             <!-- Vision -->
-            <div class="bg-gray-900 p-8 rounded-lg text-center">
+            <div class="bg-black border border-gray-800 p-8 rounded-lg text-center">
               <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg class="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -143,7 +143,7 @@
             </div>
             
             <!-- Values -->
-            <div class="bg-gray-900 p-8 rounded-lg text-center">
+            <div class="bg-black border border-gray-800 p-8 rounded-lg text-center">
               <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg class="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -164,7 +164,7 @@
       </section>
 
       <!-- Team Section -->
-      <section class="py-20 bg-gray-900">
+      <section class="py-20 bg-black">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-16">
             <h2 class="text-4xl font-bold text-white mb-4">ทีมงานของเรา</h2>
@@ -250,7 +250,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-gray-800">
+    <footer class="bg-black border-t border-gray-800">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="text-center">
           <p class="text-gray-400">&copy; 2024 ShopHub. สงวนลิขสิทธิ์ทั้งหมด.</p>

@@ -41,7 +41,7 @@
     <!-- Main Content -->
     <main>
       <!-- Hero Section -->
-      <section class="bg-gradient-to-br from-gray-900 to-black py-20">
+      <section class="bg-black py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
             ติดต่อเรา
@@ -54,7 +54,7 @@
       </section>
 
       <!-- Contact Form & Info -->
-      <section class="py-20 bg-gray-900">
+      <section class="py-20 bg-black">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <!-- Contact Form -->
@@ -255,7 +255,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-gray-800">
+    <footer class="bg-black border-t border-gray-800">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="text-center">
           <p class="text-gray-400">&copy; 2024 ShopHub. สงวนลิขสิทธิ์ทั้งหมด.</p>

@@ -1,5 +1,5 @@
 # models.py
-from mongoengine import Document, StringField, DateTimeField, IntField, FloatField, ReferenceField, ListField
+from mongoengine import Document, StringField, DateTimeField, IntField, FloatField, ReferenceField, ListField, BooleanField
 from datetime import datetime
 import re
 import base64
@@ -54,7 +54,7 @@ class Category(Document):
     description = StringField(max_length=500)
     image_url = StringField(max_length=500)
     slug = StringField(required=True, unique=True, max_length=100)
-    is_active = StringField(default=True)
+    is_active = BooleanField(default=True)
     created_at = DateTimeField(default=datetime.utcnow)
     updated_at = DateTimeField(default=datetime.utcnow)
     
@@ -74,8 +74,8 @@ class Product(Document):
     sku = StringField(required=True, unique=True, max_length=100)
     brand = StringField(max_length=100)
     tags = ListField(StringField(max_length=50))
-    is_featured = StringField(default=False)
-    is_active = StringField(default=True)
+    is_featured = BooleanField(default=False)
+    is_active = BooleanField(default=True)
     rating = FloatField(min_value=0, max_value=5, default=0)
     review_count = IntField(min_value=0, default=0)
     created_at = DateTimeField(default=datetime.utcnow)
@@ -92,7 +92,7 @@ class Contact(Document):
     subject = StringField(required=True, max_length=200)
     message = StringField(required=True, max_length=2000)
     phone = StringField(max_length=20)
-    is_read = StringField(default=False)
+    is_read = BooleanField(default=False)
     created_at = DateTimeField(default=datetime.utcnow)
     
     meta = {

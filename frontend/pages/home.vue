@@ -44,7 +44,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="relative overflow-hidden bg-gradient-to-br from-gray-900 to-black py-20">
+    <section id="home" class="relative overflow-hidden bg-black py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
           <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
@@ -73,7 +73,7 @@
     </section>
 
     <!-- Featured Categories -->
-    <section id="categories" class="py-20 bg-gray-900">
+    <section id="categories" class="py-20 bg-black">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-4xl font-bold text-white mb-4">หมวดหมู่สินค้า</h2>
@@ -165,7 +165,7 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-20 bg-gray-900">
+    <section class="py-20 bg-black">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-4xl font-bold text-white mb-4">ทำไมต้องเลือกเรา</h2>
@@ -206,26 +206,8 @@
       </div>
     </section>
 
-    <!-- Newsletter -->
-    <section class="py-20 bg-black border-t border-gray-800">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl font-bold text-white mb-4">รับข่าวสารและโปรโมชั่น</h2>
-        <p class="text-gray-300 mb-8">สมัครรับข่าวสารเพื่อไม่พลาดโปรโมชั่นพิเศษและสินค้าใหม่</p>
-        <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-          <input
-            type="email"
-            placeholder="กรอกอีเมลของคุณ"
-            class="flex-1 px-4 py-3 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-white"
-          />
-          <button class="bg-white text-black px-6 py-3 rounded-md font-semibold hover:bg-gray-200 transition-colors">
-            สมัคร
-          </button>
-        </div>
-      </div>
-    </section>
-
     <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-gray-800">
+    <footer class="bg-black border-t border-gray-800">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
@@ -273,7 +255,8 @@
 
 <script setup>
 definePageMeta({
-  layout: 'default'
+  layout: 'default',
+  ssr: false
 })
 
 // Import the ProfileDropdown component

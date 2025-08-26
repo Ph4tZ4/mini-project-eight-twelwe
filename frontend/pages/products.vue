@@ -47,7 +47,7 @@
       </div>
 
       <!-- Filters and Search -->
-      <div class="bg-gray-900 rounded-lg p-6 mb-8">
+      <div class="bg-black border border-gray-800 rounded-lg p-6 mb-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <!-- Search -->
           <div class="md:col-span-2">
@@ -109,7 +109,7 @@
           <div
             v-for="product in products"
             :key="product.id"
-            class="bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform duration-300 cursor-pointer"
+            class="bg-black border border-gray-800 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform duration-300 cursor-pointer"
             @click="viewProduct(product.id)"
           >
             <!-- Product Image -->
@@ -181,7 +181,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 border-t border-gray-800 mt-20">
+    <footer class="bg-black border-t border-gray-800 mt-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="text-center">
           <p class="text-gray-400">&copy; 2024 ShopHub. สงวนลิขสิทธิ์ทั้งหมด.</p>
