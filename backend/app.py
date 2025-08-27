@@ -13,16 +13,22 @@ from routes.about import about
 from routes.cart import cart
 from routes.orders import orders
 from routes.shipping import shipping
+from routes.admin import admin
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# Debug CORS origins
+print("CORS Origins:", app.config['CORS_ORIGINS'])
 
 # CORS Configuration
 CORS(app, 
      origins=app.config['CORS_ORIGINS'], 
      supports_credentials=True,
-     allow_headers=['Content-Type', 'Authorization'],
-     methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
+     allow_headers=['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
+     methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+     send_wildcard=False,
+     vary_header=True)
 
 # JWT Configuration
 jwt = JWTManager(app)
@@ -44,6 +50,7 @@ app.register_blueprint(about, url_prefix="/api")
 app.register_blueprint(cart, url_prefix="/api")
 app.register_blueprint(orders, url_prefix="/api")
 app.register_blueprint(shipping, url_prefix="/api")
+app.register_blueprint(admin, url_prefix="/api/admin")
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5050)
+    app.run(debug=True, host='0.0.0.0', port=5550)

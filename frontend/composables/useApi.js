@@ -1,10 +1,18 @@
 // composables/useApi.js
 export const useApi = () => {
   const config = useRuntimeConfig()
-  const baseURL = config.public.apiBase || 'http://localhost:5050'
+  const baseURL = config.public.apiBase || 'http://localhost:5550'
+  const { getItem } = useLocalStorage()
 
   const getAuthHeaders = () => {
-    const token = localStorage.getItem('token')
+    // Try to get token from cookie first (for admin system)
+    const tokenCookie = useCookie('auth-token')
+    if (tokenCookie.value) {
+      return { 'Authorization': `Bearer ${tokenCookie.value}` }
+    }
+    
+    // Fallback to localStorage (for regular user system)
+    const token = getItem('token')
     return token ? { 'Authorization': `Bearer ${token}` } : {}
   }
 
@@ -26,10 +34,22 @@ export const useApi = () => {
       
       // Handle authentication errors
       if (error.status === 401) {
-        // Clear invalid token and redirect to login
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-        navigateTo('/login')
+        // Clear invalid token and redirect appropriately
+        const tokenCookie = useCookie('auth-token')
+        const userCookie = useCookie('auth-user')
+        
+        if (tokenCookie.value || userCookie.value) {
+          // Admin session expired
+          tokenCookie.value = null
+          userCookie.value = null
+          navigateTo('/admin/login')
+        } else {
+          // Regular user session expired
+          const { removeItem } = useLocalStorage()
+          removeItem('token')
+          removeItem('user')
+          navigateTo('/login')
+        }
       }
       
       throw error
@@ -37,19 +57,21 @@ export const useApi = () => {
   }
 
   const isAuthenticated = () => {
-    const token = localStorage.getItem('token')
-    const user = localStorage.getItem('user')
+    const { getItem } = useLocalStorage()
+    const token = getItem('token')
+    const user = getItem('user')
     return !!(token && user)
   }
 
   const getCurrentUser = () => {
-    const userStr = localStorage.getItem('user')
-    return userStr ? JSON.parse(userStr) : null
+    const { getItem } = useLocalStorage()
+    return getItem('user')
   }
 
   const logout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
+    const { removeItem } = useLocalStorage()
+    removeItem('token')
+    removeItem('user')
     navigateTo('/login')
   }
 

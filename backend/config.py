@@ -19,10 +19,12 @@ class Config:
     
     # CORS Configuration
     CORS_ORIGINS = [
-        "http://localhost:3030",  # Nuxt.js development
-        "http://127.0.0.1:3030",
-        "http://localhost:3000",  # Fallback
-        "http://127.0.0.1:3000"
+        "http://localhost:3330",  # Nuxt.js development & Docker frontend
+        "http://127.0.0.1:3330",
+        "http://localhost:3000",  # Production frontend
+        "http://127.0.0.1:3000",
+        "http://localhost:8080",  # Additional fallback
+        "http://127.0.0.1:8080"
     ]
     
     # Security Configuration

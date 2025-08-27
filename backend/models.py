@@ -38,6 +38,7 @@ class User(Document):
     last_name = StringField(max_length=50, default='')
     password = StringField(required=True, min_length=6)
     profile_picture = StringField(max_length=1000, default=None)
+    is_admin = BooleanField(default=False)
     created_at = DateTimeField(default=datetime.utcnow)
     updated_at = DateTimeField(default=datetime.utcnow)
     
