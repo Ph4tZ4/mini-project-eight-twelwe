@@ -1,0 +1,10 @@
+/* Test CSS file to verify Tailwind processing */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Test: Custom CSS that should show up */
+.test-custom-class {
+  background: red;
+  color: yellow;
+}
