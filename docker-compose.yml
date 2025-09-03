@@ -15,7 +15,7 @@ services:
     build:
       context: ./frontend
       args:
-        VITE_API_URL: ${VITE_API_URL}   # << ดึงจาก .env ภายนอกกกกกก
+        VITE_API_URL: ${VITE_API_URL}   # << ดึงจาก .env ภายนอก
     container_name: eigth-twelwe-frontend
     env_file:
       - ./frontend/.env                # ใช้ตอน runtime
