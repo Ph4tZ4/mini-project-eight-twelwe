@@ -4,6 +4,7 @@ from flask_cors import CORS
 from mongoengine import connect
 from config import Config
 
+# Import blueprints
 from routes.auth import auth
 from routes.products import products
 from routes.contact import contact
@@ -15,13 +16,13 @@ from routes.orders import orders
 from routes.shipping import shipping
 from routes.admin import admin
 
-app = Flask(__name__)
+app = Flask(_name_)
 app.config.from_object(Config)
 
-# Debug CORS origins
-print("CORS Origins:", app.config['CORS_ORIGINS'])
+# Debug: print allowed CORS origins
+print("CORS Origins:", app.config.get('CORS_ORIGINS'))
 
-# CORS Configuration
+# CORS configuration
 CORS(app,
      resources={r"/api/*": {"origins": [
          "https://eight-twelwe.loeitech.org",
@@ -32,10 +33,10 @@ CORS(app,
      allow_headers=["Content-Type", "Authorization"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
-# JWT Configuration
+# JWT setup
 jwt = JWTManager(app)
 
-# เชื่อมต่อ MongoDB ด้วย mongoengine โดยตรง
+# MongoDB connection using mongoengine
 connect(
     db=app.config["MONGODB_SETTINGS"]["db"],
     host=app.config["MONGODB_SETTINGS"]["host"],
