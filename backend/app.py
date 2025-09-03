@@ -16,7 +16,7 @@ from routes.orders import orders
 from routes.shipping import shipping
 from routes.admin import admin
 
-app = Flask(_name_)
+app = Flask(__name__)
 app.config.from_object(Config)
 
 # Debug: print allowed CORS origins
