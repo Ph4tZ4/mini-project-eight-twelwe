@@ -22,7 +22,7 @@ class Config:
     "https://eight-twelwe.loeitech.org",
     "https://api-eight-twelwe.loeitech.org",
     "http://localhost:3000"  # ถ้า dev frontend
-    ]
+]
 
     
     # Security Configuration

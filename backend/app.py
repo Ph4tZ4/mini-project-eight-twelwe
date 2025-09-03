@@ -23,11 +23,14 @@ print("CORS Origins:", app.config['CORS_ORIGINS'])
 
 # CORS Configuration
 CORS(app,
-     resources={r"/api/*": {"origins": app.config['CORS_ORIGINS']}},
+     resources={r"/api/*": {"origins": [
+         "https://eight-twelwe.loeitech.org",
+         "https://api-eight-twelwe.loeitech.org",
+         "http://192.168.10.118:9040"
+     ]}},
      supports_credentials=True,
      allow_headers=["Content-Type", "Authorization"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
-
 
 # JWT Configuration
 jwt = JWTManager(app)
