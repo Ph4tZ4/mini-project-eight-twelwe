@@ -1,32 +1,13 @@
 services:
-  mongodb:
-    image: mongo:7.0
-    container_name: eight-twelwe-mongodb
-    restart: unless-stopped
-    environment:
-      MONGO_INITDB_DATABASE: eight_twelwe
-    ports:
-      - "27018:27017"
-    volumes:
-      - mongodb_data:/data/db
-    networks:
-      - app-network
-
   backend:
     build:
       context: ./backend
-    container_name: eight-twelwe-backend
-    environment:
-      - SECRET_KEY=your-super-secret-key-here-change-in-production
-      - JWT_SECRET_KEY=your-super-secret-jwt-key-here-change-in-production
-      - MONGODB_DB=eight_twelwe
-      - MONGODB_HOST=mongodb
-      - MONGODB_PORT=27017
+    container_name: eigth-twelwe-backend
+    env_file:
+      - ./backend/.env
     ports:
-      - "5550:5550"
+      - "5550:5000"
     restart: unless-stopped
-    depends_on:
-      - mongodb
     networks:
       - app-network
 
@@ -34,20 +15,15 @@ services:
     build:
       context: ./frontend
       args:
-        VITE_API_URL: http://localhost:5550
-    container_name: eight-twelwe-frontend
-    environment:
-      - VITE_API_URL=http://localhost:5550
+        VITE_API_URL: ${VITE_API_URL}   # << ดึงจาก .env ภายนอก
+    container_name: eigth-twelwe-frontend
+    env_file:
+      - ./frontend/.env                # ใช้ตอน runtime
     ports:
       - "3330:3000"
     restart: unless-stopped
-    depends_on:
-      - backend
     networks:
       - app-network
-
-volumes:
-  mongodb_data:
 
 networks:
   app-network:
