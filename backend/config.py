@@ -19,7 +19,9 @@ class Config:
     
     # CORS Configuration
     CORS_ORIGINS = ["https://eight-twelwe.loeitech.org",
-                    "https://api-eight-twelwe.loeitech.org"]
+                    "https://api-eight-twelwe.loeitech.org",
+                    "https://api-eigth-twelwe.loeitech.org",
+                    "https://eigth-twelwe.loeitech.org"]
     
     # Security Configuration
     SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS

@@ -22,13 +22,12 @@ app.config.from_object(Config)
 print("CORS Origins:", app.config['CORS_ORIGINS'])
 
 # CORS Configuration
-CORS(app, 
-     origins=app.config['CORS_ORIGINS'], 
+CORS(app,
+     resources={r"/api/*": {"origins": app.config['CORS_ORIGINS']}},
      supports_credentials=True,
-     allow_headers=['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
-     methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-     send_wildcard=False,
-     vary_header=True)
+     allow_headers=["Content-Type", "Authorization"],
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+
 
 # JWT Configuration
 jwt = JWTManager(app)
