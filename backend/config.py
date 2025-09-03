@@ -18,14 +18,8 @@ class Config:
     }
     
     # CORS Configuration
-    CORS_ORIGINS = [
-        "http://localhost:3330",  # Nuxt.js development & Docker frontend
-        "http://127.0.0.1:3330",
-        "http://localhost:3000",  # Production frontend
-        "http://127.0.0.1:3000",
-        "http://localhost:8080",  # Additional fallback
-        "http://127.0.0.1:8080"
-    ]
+    CORS_ORIGINS = ["https://eight-twelwe.loeitech.org",
+                    "https://api-eight-twelwe.loeitech.org"]
     
     # Security Configuration
     SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
